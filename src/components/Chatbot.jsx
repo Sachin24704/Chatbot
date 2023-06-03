@@ -221,7 +221,7 @@ function ChatbotContainer() {
       ],
     };
 
-    await fetch("https://api.openai.com/v1/chat/completions", {
+    await fetch("https://api.openai1.com/v1/chat/completions", {
       method: "POST",
       headers: {
         Authorization: "Bearer " + API_KEY,
