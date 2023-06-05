@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Msg from "./Msg";
 import {
   TextField,
   Button,
@@ -67,7 +68,8 @@ const ChatbotContainer = () => {
     borderRadius: "10px",
     display: "",
     justifyContent: "",
-    width: size ? "50px" : "",
+    width: size ? "400px" : "",
+    height: size ? "400px" : "680px",
     position: "relative",
   };
 
@@ -91,6 +93,11 @@ const ChatbotContainer = () => {
           minimize
         </Button>
         <h1 style={{ color: "red" }}>hi my name </h1>
+        <div className="flex flex-col items-start space-y-2">
+          <div className="bg-blue-500 text-red py-2 px-4 rounded-lg">
+            User: Hello, how are you?
+          </div>
+        </div>
       </div>
     </>
   );
