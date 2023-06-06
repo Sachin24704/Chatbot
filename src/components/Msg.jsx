@@ -1,10 +1,18 @@
 import React from "react";
 
-const Msg = () => {
+const Msg = ({ props }) => {
   return (
-    <div className="bg-blue-500  text-white py-2 px-4 rounded-lg">
-      User: Hello, how are you?
-    </div>
+    <>
+      {props.sender === "user" ? (
+        <div className="bg-blue-500  text-white py-2 px-4 rounded-lg">
+          {props.msg}
+        </div>
+      ) : (
+        <div className="bg-blue-500  text-white py-2 px-4 rounded-lg">
+          {props.msg}
+        </div>
+      )}
+    </>
   );
 };
 
