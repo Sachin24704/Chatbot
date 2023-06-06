@@ -93,12 +93,18 @@ const ChatbotContainer = () => {
           minimize
         </Button>
         <h1 className="text-red-600 my-3">hi my name </h1>
-        {/*<div className="flex flex-col items-start space-y-2">
-          
-          <Msg />
-        </div> */}
-        <div className="border-spacing-1 bor">
-          <TextField label="Enter Msg Here">Enter Text Here</TextField>
+        <div className="flex flex-grow flex-col items-start space-y-2">
+          {/* <Msg /> */}
+        </div>
+
+        <div className="mt-auto border-solid border-2 border-purple-600">
+          <TextField
+            label="Enter Msg Here"
+            value={inputText}
+            onChange={(event) => setInputText(event.target.value)}
+          >
+            Enter Text Here
+          </TextField>
         </div>
       </div>
     </>
