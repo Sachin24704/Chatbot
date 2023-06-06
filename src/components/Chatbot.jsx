@@ -75,7 +75,7 @@ const ChatbotContainer = () => {
 
   return (
     <>
-      <div className="chatbot-container" style={containerStyle}>
+      <div className="chatbot-container flex-col" style={containerStyle}>
         <Button
           onClick={() => (size ? setSize(false) : setSize(true))}
           style={{
@@ -92,11 +92,12 @@ const ChatbotContainer = () => {
         >
           minimize
         </Button>
-        <h1 style={{ color: "red" }}>hi my name </h1>
+        <h1 className="text-red-600 my-3">hi my name </h1>
         <div className="flex flex-col items-start space-y-2">
-          <div className="bg-blue-500 text-red py-2 px-4 rounded-lg">
+          {/* <div className="bg-blue-500 text-red py-2 px-4 rounded-lg">
             User: Hello, how are you?
-          </div>
+          </div> */}
+          <Msg />
         </div>
       </div>
     </>
