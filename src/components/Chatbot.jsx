@@ -32,7 +32,7 @@ const ChatbotContainer = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
+    let temp = { message: inputText, sender: "user" };
     // Add user's question to chat history
     setChatHistory([...chatHistory, { message: inputText, sender: "user" }]);
     setInputText("");
@@ -95,16 +95,21 @@ const ChatbotContainer = () => {
         <h1 className="text-red-600 my-3">hi my name </h1>
         <div className="flex flex-grow flex-col items-start space-y-2">
           {/* <Msg /> */}
+          {chatHistory.map((chat, index) => (
+            <Msg key={index} text={chat.message} isUser={chat.sender} />
+          ))}
         </div>
 
         <div className="mt-auto border-solid border-2 border-purple-600">
-          <TextField
-            label="Enter Msg Here"
-            value={inputText}
-            onChange={(event) => setInputText(event.target.value)}
-          >
-            Enter Text Here
-          </TextField>
+          <form onSubmit={handleFormSubmit}>
+            <TextField
+              label="Enter Msg Here"
+              value={inputText}
+              onChange={(event) => setInputText(event.target.value)}
+            >
+              Enter Text Here
+            </TextField>
+          </form>
         </div>
       </div>
     </>
