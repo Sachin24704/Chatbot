@@ -75,7 +75,10 @@ const ChatbotContainer = () => {
 
   return (
     <>
-      <div className="chatbot-container flex-col" style={containerStyle}>
+      <div
+        className="chatbot-container flex-col overflow-auto"
+        style={containerStyle}
+      >
         <Button
           onClick={() => (size ? setSize(false) : setSize(true))}
           style={{
@@ -93,10 +96,10 @@ const ChatbotContainer = () => {
           minimize
         </Button>
         <h1 className="text-red-600 my-3">hi my name </h1>
-        <div className="flex flex-grow flex-col items-start space-y-2">
+        <div className="flex flex-grow flex-col items-start space-y-2 whitespace-normal ">
           {/* <Msg /> */}
           {chatHistory.map((chat, index) => (
-            <Msg key={index} text={chat.message} isUser={chat.sender} />
+            <Msg key={index} props={chat} />
           ))}
         </div>
 
