@@ -3,13 +3,13 @@ import React from "react";
 const Msg = ({ props }) => {
   return (
     <>
-      {props.sender === "user" ? (
+      {props.isUser === "user" ? (
         <div className="bg-blue-500  text-white py-2 px-4 rounded-lg">
-          {props.msg}
+          <p className="text-right">{props.text}</p>
         </div>
       ) : (
         <div className="bg-blue-500  text-white py-2 px-4 rounded-lg">
-          {props.msg}
+          <p className="text-left">{props.text}</p>
         </div>
       )}
     </>
