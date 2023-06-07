@@ -96,7 +96,7 @@ const ChatbotContainer = () => {
           minimize
         </Button>
         <h1 className="text-red-600 my-3">hi my name </h1>
-        <div className="flex flex-grow flex-col items-start space-y-2 whitespace-normal ">
+        <div className="flex flex-grow flex-col items-start space-y-2 break-words ">
           {/* <Msg /> */}
           {chatHistory.map((chat, index) => (
             <Msg key={index} props={chat} />
