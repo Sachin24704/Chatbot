@@ -9,7 +9,7 @@ const Msg = ({ props }) => {
         </div>
       ) : (
         <div className="bg-blue-500 whitespace-normal text-white py-2 px-4 rounded-lg">
-          <p className="text-left">{props.message}</p>
+          <p className="break-words text-left">{props.message}</p>
         </div>
       )}
     </>
