@@ -15,7 +15,9 @@ import {
 
 const ChatbotContainer = () => {
   const [inputText, setInputText] = useState("");
-  const [chatHistory, setChatHistory] = useState([]);
+  const [chatHistory, setChatHistory] = useState([
+    { message: "hi", sender: "chatbot" },
+  ]);
   const [open, setOpen] = useState(false);
   // true =>small
   const [size, setSize] = useState(true);
@@ -102,12 +104,12 @@ const ChatbotContainer = () => {
           {chatHistory.map((chat, index) =>
             // <Msg key={index} props={chat} />
             chat.sender === "user" ? (
-              <div className="bg-blue-500 w-2/5 break-words ml-auto text-white py-2 px-4 rounded-lg">
+              <div className="bg-blue-500 w-2/3 break-words ml-auto text-white py-2 px-4 rounded-lg">
                 <p className="text-left">{chat.message}</p>
               </div>
             ) : (
-              <div className="bg-blue-500 text-white py-2 px-4 rounded-lg">
-                <p className="break-words text-left">{chat.message}</p>
+              <div className="bg-blue-500 w-2/3 break-words mr-auto text-white py-2 px-4 rounded-lg">
+                <p className="text-left">{chat.message}</p>
               </div>
             )
           )}
