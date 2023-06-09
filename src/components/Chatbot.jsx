@@ -62,9 +62,9 @@ const ChatbotContainer = () => {
     }
   };
   const containerStyle = {
-    border: "2px dashed blue",
+    //border: "2px dashed blue",
     backgroundColor: "lightgray",
-    padding: "20px",
+    padding: "10px",
     borderRadius: "10px",
     display: "",
     justifyContent: "",
@@ -76,7 +76,7 @@ const ChatbotContainer = () => {
   return (
     <>
       <div
-        className="chatbot-container flex-col overflow-auto"
+        className="chatbot-container border flex flex-col overflow-auto"
         style={containerStyle}
       >
         <Button
@@ -95,17 +95,28 @@ const ChatbotContainer = () => {
         >
           minimize
         </Button>
-        <h1 className="text-red-600 my-3">hi my name </h1>
-        <div className="flex flex-grow flex-col items-start space-y-2 break-words ">
+        <h1 className="text-red-600 my-3">Chatbot </h1>
+        <div className="flex break-words flex-col items-start space-y-2 mt-4">
           {/* <Msg /> */}
-          {chatHistory.map((chat, index) => (
-            <Msg key={index} props={chat} />
-          ))}
+
+          {chatHistory.map((chat, index) =>
+            // <Msg key={index} props={chat} />
+            chat.sender === "user" ? (
+              <div className="bg-blue-500 w-2/5 break-words ml-auto text-white py-2 px-4 rounded-lg">
+                <p className="text-left">{chat.message}</p>
+              </div>
+            ) : (
+              <div className="bg-blue-500 text-white py-2 px-4 rounded-lg">
+                <p className="break-words text-left">{chat.message}</p>
+              </div>
+            )
+          )}
         </div>
 
-        <div className="mt-auto border-solid border-2 border-purple-600">
-          <form onSubmit={handleFormSubmit}>
+        <div className="mt-auto w-full border-solid border-2 border-purple-600">
+          <form className="w-full" onSubmit={handleFormSubmit}>
             <TextField
+              className="w-full no-underline hover:no-underline"
               label="Enter Msg Here"
               value={inputText}
               onChange={(event) => setInputText(event.target.value)}
