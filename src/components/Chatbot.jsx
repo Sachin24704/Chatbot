@@ -14,6 +14,15 @@ import {
 //import { Send } from "react-icons/md";
 
 const ChatbotContainer = () => {
+  const { Configuration, OpenAIApi } = require("openai");
+
+  const configuration = new Configuration({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+  const openai = new OpenAIApi(configuration);
+
+  console.log(completion.data.choices[0].message);
+
   const [inputText, setInputText] = useState("");
   const [chatHistory, setChatHistory] = useState([
     { message: "hi", sender: "chatbot" },
@@ -40,6 +49,10 @@ const ChatbotContainer = () => {
     setInputText("");
 
     try {
+      const completion = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: "Hello world" }],
+      });
       // Make request to OpenAI API
       const response = await axios.post(
         "https://api.openai.com/v1/engines/davinci-codex/completions",
