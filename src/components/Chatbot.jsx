@@ -10,22 +10,21 @@ import {
   Box,
   Container,
 } from "@material-ui/core";
+import { Configuration, OpenAIApi } from "openai";
 
 //import { Send } from "react-icons/md";
 
 const ChatbotContainer = () => {
-  const { Configuration, OpenAIApi } = require("openai");
-
   const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
   });
   const openai = new OpenAIApi(configuration);
 
-  console.log(completion.data.choices[0].message);
+  // console.log(completion.data.choices[0].message);
 
   const [inputText, setInputText] = useState("");
   const [chatHistory, setChatHistory] = useState([
-    { message: "hi", sender: "chatbot" },
+    { content: "hi", role: "chatbot" },
   ]);
   const [open, setOpen] = useState(false);
   // true =>small
@@ -45,33 +44,40 @@ const ChatbotContainer = () => {
     event.preventDefault();
     let temp = { message: inputText, sender: "user" };
     // Add user's question to chat history
-    setChatHistory([...chatHistory, { message: inputText, sender: "user" }]);
+    setChatHistory([...chatHistory, { content: inputText, role: "user" }]);
     setInputText("");
 
     try {
       const completion = await openai.createChatCompletion({
         model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: "Hello world" }],
+        messages: [
+          {
+            role: "system",
+            content: "You are HealthGPT helpful assistant health coach",
+          },
+          ...chatHistory,
+        ],
       });
       // Make request to OpenAI API
-      const response = await axios.post(
-        "https://api.openai.com/v1/engines/davinci-codex/completions",
-        {
-          prompt: chatHistory.map((entry) => entry.message).join("\n"),
-          max_tokens: 50,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer YOUR_OPENAI_API_KEY",
-          },
-        }
-      );
+      // const response = await axios.post(
+      //   "https://api.openai.com/v1/engines/davinci-codex/completions",
+      //   {
+      //     prompt: chatHistory.map((entry) => entry.message).join("\n"),
+      //     max_tokens: 50,
+      //   },
+      //   {
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: "Bearer YOUR_OPENAI_API_KEY",
+      //     },
+      //   }
+      // );
 
-      const answer = response.data.choices[0].text.trim();
+      // const answer = response.data.choices[0].text.trim();
+      const answer = completion.data.choices[0].message;
 
       // Add OpenAI's answer to chat history
-      setChatHistory([...chatHistory, { message: answer, sender: "chatbot" }]);
+      setChatHistory([...chatHistory, { content: answer, role: "chatbot" }]);
     } catch (error) {
       console.log("Error:", error);
     }
@@ -116,13 +122,13 @@ const ChatbotContainer = () => {
 
           {chatHistory.map((chat, index) =>
             // <Msg key={index} props={chat} />
-            chat.sender === "user" ? (
+            chat.role === "user" ? (
               <div className="bg-blue-500 w-2/3 break-words ml-auto text-white py-2 px-4 rounded-lg">
-                <p className="text-left">{chat.message}</p>
+                <p className="text-left">{chat.content}</p>
               </div>
             ) : (
               <div className="bg-blue-500 w-2/3 break-words mr-auto text-white py-2 px-4 rounded-lg">
-                <p className="text-left">{chat.message}</p>
+                <p className="text-left">{chat.content}</p>
               </div>
             )
           )}
