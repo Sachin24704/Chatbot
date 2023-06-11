@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Msg from "./Msg";
+// import dotenv from "dotenv";
 import {
   TextField,
   Button,
@@ -10,15 +11,19 @@ import {
   Box,
   Container,
 } from "@material-ui/core";
-import { Configuration, OpenAIApi } from "openai";
+// import { gptAPI } from "gpt-3.axios";
+// import { Configuration, OpenAIApi } from "openai";
 
 //import { Send } from "react-icons/md";
 
 const ChatbotContainer = () => {
-  const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-  const openai = new OpenAIApi(configuration);
+  // dotenv.config();
+  // const apiKey = "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";
+  // const openai = gptAPI(configuration.apiKey);
+  // const configuration = new Configuration({
+  //   apiKey: "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",
+  // });
+  // const openai = new OpenAIApi(configuration);
 
   // console.log(completion.data.choices[0].message);
 
@@ -48,33 +53,34 @@ const ChatbotContainer = () => {
     setInputText("");
 
     try {
-      const completion = await openai.createChatCompletion({
-        model: "gpt-3.5-turbo",
-        messages: [
-          {
-            role: "system",
-            content: "You are HealthGPT helpful assistant health coach",
-          },
-          ...chatHistory,
-        ],
-      });
-      // Make request to OpenAI API
-      // const response = await axios.post(
-      //   "https://api.openai.com/v1/engines/davinci-codex/completions",
-      //   {
-      //     prompt: chatHistory.map((entry) => entry.message).join("\n"),
-      //     max_tokens: 50,
-      //   },
-      //   {
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Authorization: "Bearer YOUR_OPENAI_API_KEY",
+      // const completion = await openai.createChatCompletion({
+      //   model: "gpt-3.5-turbo",
+      //   messages: [
+      //     {
+      //       role: "system",
+      //       content: "You are HealthGPT helpful assistant health coach",
       //     },
-      //   }
-      // );
+      //     ...chatHistory,
+      //   ],
+      // });
+      // Make request to OpenAI API
+      const response = await axios.post(
+        "https://api.openai.com/v1/engines/davinci-codex/completions",
+        {
+          prompt: chatHistory.map((entry) => entry.message).join("\n"),
+          max_tokens: 50,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer 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",
+          },
+        }
+      );
 
-      // const answer = response.data.choices[0].text.trim();
-      const answer = completion.data.choices[0].message;
+      const answer = response.data.choices[0].text.trim();
+      // const answer = completion.data.choices[0].message;
 
       // Add OpenAI's answer to chat history
       setChatHistory([...chatHistory, { content: answer, role: "chatbot" }]);
