@@ -29,7 +29,7 @@ const ChatbotContainer = () => {
 
   const [inputText, setInputText] = useState("");
   const [chatHistory, setChatHistory] = useState([
-    { content: "hi", role: "chatbot" },
+    { content: "hi", role: "assistant" },
   ]);
   const [open, setOpen] = useState(false);
   // true =>small
@@ -47,9 +47,9 @@ const ChatbotContainer = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    let temp = { message: inputText, sender: "user" };
+
     // Add user's question to chat history
-    setChatHistory([...chatHistory, { content: inputText, role: "user" }]);
+    setChatHistory([...chatHistory, { role: "user", content: inputText }]);
     setInputText("");
 
     try {
@@ -64,26 +64,42 @@ const ChatbotContainer = () => {
       //   ],
       // });
       // Make request to OpenAI API
+      const params = {
+        model: "gpt-3.5-turbo",
+        messages: [
+          { role: "system", content: "you are a helpful health coach" },
+          ...chatHistory,
+        ],
+        temperature: 1,
+        top_p: 1,
+        n: 1,
+        stream: false,
+        max_tokens: 50,
+        presence_penalty: 0,
+        frequency_penalty: 0,
+      };
       const response = await axios.post(
-        "https://api.openai.com/v1/engines/davinci-codex/completions",
-        {
-          prompt: chatHistory.map((entry) => entry.message).join("\n"),
-          max_tokens: 50,
-        },
+        "https://api.openai.com/v1/chat/completions",
+        params,
+        // {
+        //   prompt: chatHistory.map((entry) => entry.message).join("\n"),
+        //   model: "gpt-3.5-turbo",
+        //   max_tokens: 50,
+        //   temperature: 0.5,
+        // },
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer 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",
+            Authorization: "Bearer ",
           },
         }
       );
 
-      const answer = response.data.choices[0].text.trim();
+      const answer = response.data.choices[0].message.content;
       // const answer = completion.data.choices[0].message;
 
       // Add OpenAI's answer to chat history
-      setChatHistory([...chatHistory, { content: answer, role: "chatbot" }]);
+      setChatHistory([...chatHistory, { content: answer, role: "assistant" }]);
     } catch (error) {
       console.log("Error:", error);
     }
@@ -129,11 +145,17 @@ const ChatbotContainer = () => {
           {chatHistory.map((chat, index) =>
             // <Msg key={index} props={chat} />
             chat.role === "user" ? (
-              <div className="bg-blue-500 w-2/3 break-words ml-auto text-white py-2 px-4 rounded-lg">
+              <div
+                key={index}
+                className="bg-blue-500 w-2/3 break-words mr-auto text-white py-2 px-4 rounded-lg"
+              >
                 <p className="text-left">{chat.content}</p>
               </div>
             ) : (
-              <div className="bg-blue-500 w-2/3 break-words mr-auto text-white py-2 px-4 rounded-lg">
+              <div
+                key={index}
+                className="bg-blue-500 w-2/3 break-words mr-auto text-white py-2 px-4 rounded-lg"
+              >
                 <p className="text-left">{chat.content}</p>
               </div>
             )
