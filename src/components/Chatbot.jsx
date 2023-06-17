@@ -48,7 +48,9 @@ const ChatbotContainer = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
+    let text = inputText;
+    setInputText("");
+    setThinking(true);
     // Add user's question to chat history
     // setChatHistory([...chatHistory, { role: "user", content: inputText }]);
     // setInputText("");
@@ -65,13 +67,13 @@ const ChatbotContainer = () => {
       //   ],
       // });
       // Make request to OpenAI API
-      setThinking(true);
+
       const params = {
         model: "gpt-3.5-turbo",
         messages: [
           { role: "system", content: "you are a helpful health coach" },
           ...chatHistory,
-          { role: "user", content: inputText },
+          { role: "user", content: text },
         ],
         temperature: 1,
         top_p: 1,
@@ -105,7 +107,7 @@ const ChatbotContainer = () => {
       // setChatHistory([...chatHistory, { content: answer, role: "assistant" }]);
       setChatHistory([
         ...chatHistory,
-        { role: "user", content: inputText },
+        { role: "user", content: text },
         { role: "assistant", content: answer },
       ]);
 
