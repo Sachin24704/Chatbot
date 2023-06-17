@@ -149,11 +149,27 @@ const ChatbotContainer = () => {
               width: "",
               fontSize: "10px",
               position: "absolute",
-              right: "10px",
+              right: "80px",
               top: "10px",
             }}
           >
             minimize
+          </Button>
+          <Button
+            onClick={() => setIsOpen(false)}
+            style={{
+              border: "2px solid black",
+              backgroundColor: "black",
+              color: "white",
+              height: "",
+              width: "",
+              fontSize: "10px",
+              position: "absolute",
+              right: "10px",
+              top: "10px",
+            }}
+          >
+            close
           </Button>
           <h1 className="text-red-600 my-3">Chatbot </h1>
           <div className="flex break-words flex-col items-start space-y-2 mt-4">
