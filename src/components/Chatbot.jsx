@@ -28,6 +28,7 @@ const ChatbotContainer = () => {
   // console.log(completion.data.choices[0].message);
 
   const [inputText, setInputText] = useState("");
+  const [thinking, setThinking] = useState(false);
   const [chatHistory, setChatHistory] = useState([
     { content: "hi", role: "assistant" },
   ]);
@@ -49,8 +50,8 @@ const ChatbotContainer = () => {
     event.preventDefault();
 
     // Add user's question to chat history
-    setChatHistory([...chatHistory, { role: "user", content: inputText }]);
-    setInputText("");
+    // setChatHistory([...chatHistory, { role: "user", content: inputText }]);
+    // setInputText("");
 
     try {
       // const completion = await openai.createChatCompletion({
@@ -64,11 +65,13 @@ const ChatbotContainer = () => {
       //   ],
       // });
       // Make request to OpenAI API
+      setThinking(true);
       const params = {
         model: "gpt-3.5-turbo",
         messages: [
           { role: "system", content: "you are a helpful health coach" },
           ...chatHistory,
+          { role: "user", content: inputText },
         ],
         temperature: 1,
         top_p: 1,
@@ -99,10 +102,18 @@ const ChatbotContainer = () => {
       // const answer = completion.data.choices[0].message;
 
       // Add OpenAI's answer to chat history
-      setChatHistory([...chatHistory, { content: answer, role: "assistant" }]);
+      // setChatHistory([...chatHistory, { content: answer, role: "assistant" }]);
+      setChatHistory([
+        ...chatHistory,
+        { role: "user", content: inputText },
+        { role: "assistant", content: answer },
+      ]);
+
+      setInputText("");
     } catch (error) {
       console.log("Error:", error);
     }
+    setThinking(false);
   };
   const containerStyle = {
     //border: "2px dashed blue",
@@ -147,7 +158,7 @@ const ChatbotContainer = () => {
             chat.role === "user" ? (
               <div
                 key={index}
-                className="bg-blue-500 w-2/3 break-words mr-auto text-white py-2 px-4 rounded-lg"
+                className="bg-blue-500 w-2/3 break-words ml-auto text-white py-2 px-4 rounded-lg"
               >
                 <p className="text-left">{chat.content}</p>
               </div>
@@ -169,9 +180,11 @@ const ChatbotContainer = () => {
               label="Enter Msg Here"
               value={inputText}
               onChange={(event) => setInputText(event.target.value)}
+              disabled={thinking}
             >
               Enter Text Here
             </TextField>
+            {thinking && <p>Thinking...</p>}
           </form>
         </div>
       </div>
