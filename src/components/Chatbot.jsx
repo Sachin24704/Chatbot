@@ -29,6 +29,8 @@ const ChatbotContainer = () => {
 
   const [inputText, setInputText] = useState("");
   const [thinking, setThinking] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
   const [chatHistory, setChatHistory] = useState([
     { content: "hi", role: "assistant" },
   ]);
@@ -131,65 +133,76 @@ const ChatbotContainer = () => {
 
   return (
     <>
-      <div
-        className="chatbot-container border flex flex-col overflow-auto"
-        style={containerStyle}
-      >
-        <Button
-          onClick={() => (size ? setSize(false) : setSize(true))}
-          style={{
-            border: "2px solid black",
-            backgroundColor: "black",
-            color: "white",
-            height: "",
-            width: "",
-            fontSize: "10px",
-            position: "absolute",
-            right: "10px",
-            top: "10px",
-          }}
+      {" "}
+      {isOpen && (
+        <div
+          className="chatbot-container border flex flex-col overflow-auto"
+          style={containerStyle}
         >
-          minimize
-        </Button>
-        <h1 className="text-red-600 my-3">Chatbot </h1>
-        <div className="flex break-words flex-col items-start space-y-2 mt-4">
-          {/* <Msg /> */}
+          <Button
+            onClick={() => (size ? setSize(false) : setSize(true))}
+            style={{
+              border: "2px solid black",
+              backgroundColor: "black",
+              color: "white",
+              height: "",
+              width: "",
+              fontSize: "10px",
+              position: "absolute",
+              right: "10px",
+              top: "10px",
+            }}
+          >
+            minimize
+          </Button>
+          <h1 className="text-red-600 my-3">Chatbot </h1>
+          <div className="flex break-words flex-col items-start space-y-2 mt-4">
+            {/* <Msg /> */}
 
-          {chatHistory.map((chat, index) =>
-            // <Msg key={index} props={chat} />
-            chat.role === "user" ? (
-              <div
-                key={index}
-                className="bg-blue-500 w-2/3 break-words ml-auto text-white py-2 px-4 rounded-lg"
-              >
-                <p className="text-left">{chat.content}</p>
-              </div>
-            ) : (
-              <div
-                key={index}
-                className="bg-blue-500 w-2/3 break-words mr-auto text-white py-2 px-4 rounded-lg"
-              >
-                <p className="text-left">{chat.content}</p>
-              </div>
-            )
-          )}
-        </div>
+            {chatHistory.map((chat, index) =>
+              // <Msg key={index} props={chat} />
+              chat.role === "user" ? (
+                <div
+                  key={index}
+                  className="bg-blue-500 w-2/3 break-words ml-auto text-white py-2 px-4 rounded-lg"
+                >
+                  <p className="text-left">{chat.content}</p>
+                </div>
+              ) : (
+                <div
+                  key={index}
+                  className="bg-blue-500 w-2/3 break-words mr-auto text-white py-2 px-4 rounded-lg"
+                >
+                  <p className="text-left">{chat.content}</p>
+                </div>
+              )
+            )}
+          </div>
 
-        <div className="mt-auto w-full border-solid border-2 border-purple-600">
-          <form className="w-full" onSubmit={handleFormSubmit}>
-            <TextField
-              className="w-full no-underline hover:no-underline"
-              label="Enter Msg Here"
-              value={inputText}
-              onChange={(event) => setInputText(event.target.value)}
-              disabled={thinking}
-            >
-              Enter Text Here
-            </TextField>
-            {thinking && <p>Thinking...</p>}
-          </form>
+          <div className="mt-auto w-full border-solid border-2 border-purple-600">
+            <form className="w-full" onSubmit={handleFormSubmit}>
+              <TextField
+                className="w-full no-underline hover:no-underline"
+                label="Enter Msg Here"
+                value={inputText}
+                onChange={(event) => setInputText(event.target.value)}
+                disabled={thinking}
+              >
+                Enter Text Here
+              </TextField>
+              {thinking && <p>Thinking...</p>}
+            </form>
+          </div>
         </div>
-      </div>
+      )}
+      {!isOpen && (
+        <div>
+          <button onClick={() => setIsOpen(!isOpen)}>
+            logo
+            {/* Chatbot logo */}
+          </button>
+        </div>
+      )}
     </>
   );
 };
