@@ -48,6 +48,11 @@ const ChatbotContainer = () => {
     setOpen(false);
   };
 
+  // const res = axios
+  //   .get("/endpoint", {})
+  //   .then((response) => {})
+  //   .catch((error) => {});
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     let text = inputText;
