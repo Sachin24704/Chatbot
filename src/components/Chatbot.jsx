@@ -48,30 +48,30 @@ const ChatbotContainer = () => {
     setOpen(false);
   };
 
-  const res = axios
-    .get("/endpoint", {
-      body: {
-        model: "gpt-3.5-turbo",
-        messages: [
-          { role: "system", content: "you are a helpful health coach" },
-          ...chatHistory,
-          { role: "user", content: text },
-        ],
-        temperature: 1,
-        top_p: 1,
-        n: 1,
-        stream: false,
-        max_tokens: 50,
-        presence_penalty: 0,
-        frequency_penalty: 0,
-      },
-    })
-    .then((response) => {
-      const ans = response.data.choices[0].message.content;
-    })
-    .catch((error) => {
-      console.log("error" + error);
-    });
+  // axios
+  //   .get("/endpoint", {
+  //     body: {
+  //       model: "gpt-3.5-turbo",
+  //       messages: [
+  //         { role: "system", content: "you are a helpful health coach" },
+  //         ...chatHistory,
+  //         { role: "user", content: text },
+  //       ],
+  //       temperature: 1,
+  //       top_p: 1,
+  //       n: 1,
+  //       stream: false,
+  //       max_tokens: 50,
+  //       presence_penalty: 0,
+  //       frequency_penalty: 0,
+  //     },
+  //   })
+  //   .then((response) => {
+  //     const ans = response.data.choices[0].message.content;
+  //   })
+  //   .catch((error) => {
+  //     console.log("error" + error);
+  //   });
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
