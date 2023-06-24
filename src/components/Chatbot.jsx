@@ -48,10 +48,30 @@ const ChatbotContainer = () => {
     setOpen(false);
   };
 
-  // const res = axios
-  //   .get("/endpoint", {})
-  //   .then((response) => {})
-  //   .catch((error) => {});
+  const res = axios
+    .get("/endpoint", {
+      body: {
+        model: "gpt-3.5-turbo",
+        messages: [
+          { role: "system", content: "you are a helpful health coach" },
+          ...chatHistory,
+          { role: "user", content: text },
+        ],
+        temperature: 1,
+        top_p: 1,
+        n: 1,
+        stream: false,
+        max_tokens: 50,
+        presence_penalty: 0,
+        frequency_penalty: 0,
+      },
+    })
+    .then((response) => {
+      const ans = response.data.choices[0].message.content;
+    })
+    .catch((error) => {
+      console.log("error" + error);
+    });
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -90,28 +110,36 @@ const ChatbotContainer = () => {
         presence_penalty: 0,
         frequency_penalty: 0,
       };
-      const response = await axios.post(
-        "https://api.openai.com/v1/chat/completions",
-        params,
-        // {
-        //   prompt: chatHistory.map((entry) => entry.message).join("\n"),
-        //   model: "gpt-3.5-turbo",
-        //   max_tokens: 50,
-        //   temperature: 0.5,
-        // },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer API",
-          },
-        }
-      );
+      // const response = await axios.post(
+      //   "https://api.openai.com/v1/chat/completions",
+      //   params,
+      //   // {
+      //   //   prompt: chatHistory.map((entry) => entry.message).join("\n"),
+      //   //   model: "gpt-3.5-turbo",
+      //   //   max_tokens: 50,
+      //   //   temperature: 0.5,
+      //   // },
+      //   {
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: "Bearer API",
+      //     },
+      //   }
+      // );
 
-      const answer = response.data.choices[0].message.content;
+      // const answer = response.data.choices[0].message.content;
       // const answer = completion.data.choices[0].message;
 
       // Add OpenAI's answer to chat history
       // setChatHistory([...chatHistory, { content: answer, role: "assistant" }]);
+
+      const response = await axios.post("/api/openai", {
+        text,
+        params,
+      });
+
+      const answer = response.data.answer;
+
       setChatHistory([
         ...chatHistory,
         { role: "user", content: text },
