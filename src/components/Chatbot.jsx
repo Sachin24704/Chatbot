@@ -133,7 +133,7 @@ const ChatbotContainer = () => {
       // Add OpenAI's answer to chat history
       // setChatHistory([...chatHistory, { content: answer, role: "assistant" }]);
 
-      const response = await axios.post("/api/openai", {
+      const response = await axios.post("http://localhost:3000/api/openai", {
         text,
         params,
       });
