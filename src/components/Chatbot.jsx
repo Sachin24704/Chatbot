@@ -139,6 +139,7 @@ const ChatbotContainer = () => {
       });
 
       const answer = response.data.answer;
+      console.log("answer" + answer);
 
       setChatHistory([
         ...chatHistory,
